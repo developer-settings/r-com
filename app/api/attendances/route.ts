@@ -99,6 +99,7 @@ export const POST = async (request: NextRequest) => {
         await sql`SELECT EXISTS(SELECT 1 FROM AttendanceTable WHERE employee_id = ${validation.data.employee_id} AND attendance_date = ${currentDate})`;
       if (!attendance[0].exists) {
         const currentTime = dayjs(currentDateTime).format('HH:mm:ss');
+
         const employeeData =
           await sql`SELECT start_shift FROM EmployeeTable WHERE employee_id = ${validation.data.employee_id}`;
         const employeeShift = employeeData[0].start_shift;
@@ -109,7 +110,7 @@ export const POST = async (request: NextRequest) => {
         } else {
           checkInStatus = 'ON_TIME';
         }
-
+        console.log(currentTime);
         await sql`INSERT INTO AttendanceTable (employee_id, attendance_date, check_in_time, check_in_status) VALUES (${validation.data.employee_id}, ${currentDate}, ${currentTime}, ${checkInStatus})`;
 
         const newAttendance = await sql`

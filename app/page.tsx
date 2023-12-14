@@ -105,3 +105,5 @@ export default function Component() {
     </section>
   );
 }
+
+export const revalidate = 1;

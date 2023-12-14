@@ -20,3 +20,4 @@ export const GET = async (resquest: NextRequest) => {
     );
   }
 };
+export const dynamic = 'force-dynamic';
