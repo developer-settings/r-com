@@ -23,7 +23,7 @@ export default function SideNav() {
   });
   const currentPath = usePathname();
   return (
-    <div className='min-h-[90vh] flex max-w-[15rem] shadow-sm m-1 rounded-sm'>
+    <div className='min-h-[90vh] flex max-w-[15rem] shadow-sm m-1 rounded-sm '>
       <div className='w-[280px] h-[90vh] dark:text-white p-4 overflow-auto flex flex-col justify-between  rounded '>
         <div className='flex flex-col gap-4'>
           <Link href='/management' className={cn(style)}>
@@ -37,7 +37,8 @@ export default function SideNav() {
               href={item.value}
               className={classnames(style, {
                 'dark:bg-white text-white bg-black': currentPath === item.value,
-              })}>
+              })}
+            >
               {item.label === 'Employees' ? (
                 <Fragment>
                   <item.icon className='h-6 w-4' />
