@@ -12,6 +12,7 @@
     "@faker-js/faker": "^8.3.1",
     "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.3.2",
+    "@neondatabase/serverless": "^0.6.0",
     "@nivo/bar": "^0.84.0",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.0.4",
