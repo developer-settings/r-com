@@ -39,10 +39,13 @@ export default function Component() {
       if (error instanceof AxiosError) {
         if (error.response?.status === 409) {
           try {
+            setLoading(true);
             const patchResponse = await axios.patch(
               `/api/attendances/${data.employee_id}`,
               data
             );
+            setLoading(false);
+            reset();
             toast.success(
               <CheckOutSuccessToast
                 attendance={patchResponse.data.attendance}
