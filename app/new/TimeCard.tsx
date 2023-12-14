@@ -14,7 +14,7 @@ const TimeCard = () => {
       );
       setCurrentDateTime(new Date(response.data.datetime));
     } catch (error) {
-      console.error('Failed to fetch date and time:', error);
+      console.error('Failed to fetch current date and time:', error);
     }
   };
 
@@ -43,5 +43,5 @@ const TimeCard = () => {
     </div>
   );
 };
-
+export const dynamic = 'force-dynamic';
 export default TimeCard;

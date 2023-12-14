@@ -12,6 +12,7 @@ interface CheckInCardProps {
   check_in_status: CheckInStatus;
   first_name: string;
   last_name: string;
+  check_in_time: string;
 }
 
 interface AttendanceProps {
@@ -28,6 +29,9 @@ export const CheckInSuccessToast = ({ attendance }: AttendanceProps) => {
       <p className='text-sm font-medium text-gray-500'>
         Check In Successfully !
       </p>
+      <span className='text-xs font-thin block'>
+        Check in at {attendance.check_in_time}
+      </span>
       <CheckInStatusBadge status={attendance.check_in_status} />
     </div>
   );

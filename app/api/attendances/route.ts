@@ -89,7 +89,8 @@ export const POST = async (request: NextRequest) => {
 
     try {
       const response = await fetch(
-        'http://worldtimeapi.org/api/timezone/America/Port-au-Prince'
+        'http://worldtimeapi.org/api/timezone/America/Port-au-Prince',
+        { cache: 'no-store' }
       );
       const data = await response.json();
       const currentDateTime = data.datetime;
@@ -110,7 +111,7 @@ export const POST = async (request: NextRequest) => {
         } else {
           checkInStatus = 'ON_TIME';
         }
-        console.log(currentTime);
+
         await sql`INSERT INTO AttendanceTable (employee_id, attendance_date, check_in_time, check_in_status) VALUES (${validation.data.employee_id}, ${currentDate}, ${currentTime}, ${checkInStatus})`;
 
         const newAttendance = await sql`
@@ -119,7 +120,8 @@ export const POST = async (request: NextRequest) => {
           pf.first_name,
           pf.last_name,
           att.check_in_status,
-          att.attendance_date
+          att.attendance_date,
+          att.check_in_time
         FROM 
           AttendanceTable att
         JOIN 

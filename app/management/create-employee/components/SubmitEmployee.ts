@@ -11,9 +11,10 @@ export const SubmitEmployee = async (
   try {
     const response = await axios.post('/api/employees', data);
     toast({
-      title: 'Employee Information',
+      title: `Employee Information`,
       description: 'Employee information has been saved successfully.',
     });
+
     onSuccess();
   } catch (error) {
     if (error instanceof AxiosError) toast({ title: error.message });
