@@ -16,7 +16,7 @@ import axios from 'axios';
 import { Suspense } from 'react';
 import LoadingIcon from './components/LoadingIcon';
 
- function Analitics() {
+function Analitics() {
   const { data, isLoading } = useQuery<Analitics[]>({
     queryKey: ['analitics'],
     queryFn: () =>
