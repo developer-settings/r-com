@@ -8,9 +8,9 @@ import { toast } from 'react-toastify';
 
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import { useSubmitAttendance } from './new/hook/useSubmitAttendace';
-import { CheckInSuccessToast, CheckOutSuccessToast } from './new/SuccessCard';
 import ButtonSpinner from './new/ButtonSpinner';
+import { CheckInSuccessToast, CheckOutSuccessToast } from './new/SuccessCard';
+import { useSubmitAttendance } from './new/hook/useSubmitAttendace';
 
 const TimeCard = dynamic(() => import('./new/TimeCard'), { ssr: false });
 
@@ -78,7 +78,8 @@ export default function Component() {
 
           <form
             className='flex space-x-2 justify-between max-w-[20rem] mx-auto'
-            onSubmit={handleSubmit(handleFormSubmit)}>
+            onSubmit={handleSubmit(handleFormSubmit)}
+          >
             <div>
               <Input
                 className='w-[10rem] md:w-[20rem] flex-2 mb-3'
