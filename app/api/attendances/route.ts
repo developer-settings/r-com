@@ -121,7 +121,7 @@ export const POST = async (request: NextRequest) => {
           pf.last_name,
           att.check_in_status,
           att.attendance_date,
-          att.check_in_time
+         ${currentTime} as check_in_time
         FROM 
           AttendanceTable att
         JOIN 
