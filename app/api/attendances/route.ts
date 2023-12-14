@@ -114,14 +114,20 @@ export const POST = async (request: NextRequest) => {
 
         await sql`INSERT INTO AttendanceTable (employee_id, attendance_date, check_in_time, check_in_status) VALUES (${validation.data.employee_id}, ${currentDate}, ${currentTime}, ${checkInStatus})`;
 
+        const debugTimeError = {
+          currentDateTimeFromAPI: currentDateTime,
+          currentTimeAfterFormatting: currentTime,
+        };
+
         const newAttendance = await sql`
         SELECT 
           att.attendance_id,
           pf.first_name,
           pf.last_name,
           att.check_in_status,
-          att.attendance_date,
-         ${currentTime} as check_in_time
+          ${debugTimeError.currentDateTimeFromAPI} as attendance_date,
+
+         ${debugTimeError.currentDateTimeFromAPI} as check_in_time
         FROM 
           AttendanceTable att
         JOIN 
@@ -133,7 +139,7 @@ export const POST = async (request: NextRequest) => {
         ORDER BY 
           att.attendance_date DESC 
         LIMIT 1`;
-
+        // newAttendance[0]
         return NextResponse.json(
           {
             message: 'Attendance record created',
