@@ -21,7 +21,7 @@ export const PATCH = async (
       );
     }
     const employee =
-      await sql`SELECT EXISTS(SELECT 1 FROM EmployeeTable WHERE employee_id = ${validation.data.employee_id})`;
+      await sql`SELECT EXISTS(SELECT 1 FROM EmployeeTable WHERE employee_id = ${employee_id})`;
     if (!employee[0].exists) {
       return NextResponse.json(
         { message: 'Employee does not exist' },
