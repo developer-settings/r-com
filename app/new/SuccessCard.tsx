@@ -27,8 +27,7 @@ export const CheckInSuccessToast = ({ attendance }: AttendanceProps) => {
       </p>
 
       <p className='text-sm font-medium text-gray-500'>
-        {/* Check In Successfully ! */}
-        {attendance.attendance_date}
+        Check In Successfully !
       </p>
       <span className='text-xs font-thin block'>
         Check in at {attendance.check_in_time}

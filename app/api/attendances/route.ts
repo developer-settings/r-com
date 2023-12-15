@@ -1,10 +1,6 @@
 import { employeeIdSchema } from '@/app/types/schema';
 import { sql } from '@/app/utils/query';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
 import moment from 'moment-timezone';
-
 import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async (request: NextRequest) => {
@@ -19,8 +15,12 @@ export const GET = async (request: NextRequest) => {
     const data = await response.json();
     const currentDateTime = data.datetime;
 
-    from = dayjs(currentDateTime).format('YYYY-MM-DD');
-    to = dayjs(currentDateTime).format('YYYY-MM-DD');
+    from = moment
+      .tz(currentDateTime, 'America/Port-au-Prince')
+      .format('YYYY-MM-DD');
+    to = moment
+      .tz(currentDateTime, 'America/Port-au-Prince')
+      .format('YYYY-MM-DD');
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -30,7 +30,7 @@ export const GET = async (request: NextRequest) => {
   }
 
   if (url.searchParams.get('from')) {
-    const fromDate = dayjs(url.searchParams.get('from'));
+    const fromDate = moment(url.searchParams.get('from'));
     if (!fromDate.isValid()) {
       return NextResponse.json({ error: 'Invalid from date' }, { status: 400 });
     }
@@ -38,7 +38,7 @@ export const GET = async (request: NextRequest) => {
   }
 
   if (url.searchParams.get('to')) {
-    const toDate = dayjs(url.searchParams.get('to'));
+    const toDate = moment(url.searchParams.get('to'));
     if (!toDate.isValid()) {
       return NextResponse.json({ error: 'Invalid to date' }, { status: 400 });
     }
@@ -122,20 +122,14 @@ export const POST = async (request: NextRequest) => {
 
         await sql`INSERT INTO AttendanceTable (employee_id, attendance_date, check_in_time, check_in_status) VALUES (${validation.data.employee_id}, ${currentDate}, ${currentTime}, ${checkInStatus})`;
 
-        const debugTimeError = {
-          currentDateTimeFromAPI: currentDateTime,
-          currentTimeAfterFormatting: currentTime,
-        };
-
         const newAttendance = await sql`
         SELECT 
           att.attendance_id,
           pf.first_name,
           pf.last_name,
           att.check_in_status,
-          ${debugTimeError.currentDateTimeFromAPI} as attendance_date,
-
-         ${debugTimeError.currentTimeAfterFormatting} as check_in_time
+          att.attendance_date,
+         att.check_in_time
         FROM 
           AttendanceTable att
         JOIN 
