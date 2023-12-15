@@ -7,7 +7,7 @@ import CheckOutStatusBadge from '../management/attendances/components/CheckOutSt
 const code = Source_Code_Pro({ subsets: ['latin'] });
 
 interface CheckInCardProps {
-  attendance_date: Date;
+  attendance_date: string;
   attendance_id: number;
   check_in_status: CheckInStatus;
   first_name: string;
@@ -27,7 +27,8 @@ export const CheckInSuccessToast = ({ attendance }: AttendanceProps) => {
       </p>
 
       <p className='text-sm font-medium text-gray-500'>
-        Check In Successfully !
+        {/* Check In Successfully ! */}
+        {attendance.attendance_date}
       </p>
       <span className='text-xs font-thin block'>
         Check in at {attendance.check_in_time}

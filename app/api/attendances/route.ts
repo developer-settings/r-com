@@ -1,6 +1,10 @@
 import { employeeIdSchema } from '@/app/types/schema';
 import { sql } from '@/app/utils/query';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
+import moment from 'moment-timezone';
+
 import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async (request: NextRequest) => {
@@ -94,12 +98,16 @@ export const POST = async (request: NextRequest) => {
       );
       const data = await response.json();
       const currentDateTime = data.datetime;
-      const currentDate = dayjs(currentDateTime).format('YYYY-MM-DD');
+      const currentDate = moment
+        .tz(currentDateTime, 'America/Port-au-Prince')
+        .format('YYYY-MM-DD');
 
       const attendance =
         await sql`SELECT EXISTS(SELECT 1 FROM AttendanceTable WHERE employee_id = ${validation.data.employee_id} AND attendance_date = ${currentDate})`;
       if (!attendance[0].exists) {
-        const currentTime = dayjs(currentDateTime).format('HH:mm:ss');
+        const currentTime = moment
+          .tz(currentDateTime, 'America/Port-au-Prince')
+          .format('HH:mm:ss');
 
         const employeeData =
           await sql`SELECT start_shift FROM EmployeeTable WHERE employee_id = ${validation.data.employee_id}`;
@@ -127,7 +135,7 @@ export const POST = async (request: NextRequest) => {
           att.check_in_status,
           ${debugTimeError.currentDateTimeFromAPI} as attendance_date,
 
-         ${debugTimeError.currentDateTimeFromAPI} as check_in_time
+         ${debugTimeError.currentTimeAfterFormatting} as check_in_time
         FROM 
           AttendanceTable att
         JOIN 
