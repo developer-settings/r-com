@@ -7,20 +7,32 @@ import dayjs from 'dayjs';
 const TimeCard = () => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
-  const fetchDateTime = async () => {
-    try {
-      const response = await axios.get(
-        'http://worldtimeapi.org/api/timezone/America/Port-au-Prince'
-      );
-      setCurrentDateTime(new Date(response.data.datetime));
-    } catch (error) {
-      console.error('Failed to fetch current date and time:', error);
-    }
+  // const fetchDateTime = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       'http://worldtimeapi.org/api/timezone/America/Port-au-Prince'
+  //     );
+  //     setCurrentDateTime(new Date(response.data.datetime));
+  //   } catch (error) {
+  //     console.error('Failed to fetch current date ....... and time:', error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchDateTime();
+  //   const timer = setInterval(fetchDateTime, 1000);
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, []);
+
+  const updateDateTime = () => {
+    setCurrentDateTime(new Date());
   };
 
   useEffect(() => {
-    fetchDateTime();
-    const timer = setInterval(fetchDateTime, 1000);
+    updateDateTime();
+    const timer = setInterval(updateDateTime, 1000);
     return () => {
       clearInterval(timer);
     };
