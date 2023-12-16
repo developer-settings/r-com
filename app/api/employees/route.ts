@@ -14,6 +14,7 @@ export const POST = async (request: NextRequest) => {
       { status: 400 }
     );
   }
+  const day_off = validation.data.day_off ? validation.data.day_off : null;
 
   try {
     await sql`
@@ -27,7 +28,8 @@ export const POST = async (request: NextRequest) => {
 		job_title,
 		role,
 		start_shift,
-		end_shift
+		end_shift,
+    day_off
 		)
 		VAlUES(
 			${generateId()},
@@ -39,7 +41,8 @@ export const POST = async (request: NextRequest) => {
 			${validation.data.job_title},
 			${validation.data.role},
 			${validation.data.start_shift},
-			${validation.data.end_shift}
+			${validation.data.end_shift},
+      ${day_off}
 		)
 	`;
 

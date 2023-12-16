@@ -40,6 +40,17 @@ export const employeeSchema = z.object({
   salary: z.string({ required_error: 'salary is required' }),
   department: z.string({ required_error: 'department is required' }),
   job_title: z.string({ required_error: 'job title is required' }),
+  day_off: z
+    .enum([
+      'SATURDAY',
+      'SUNDAY',
+      'MONDAY',
+      'TUESDAY',
+      'WEDNESDAY',
+      'THURSDAY',
+      'FRIDAY',
+    ])
+    .optional(),
   status: z.enum(['ACTIVE', 'INACTIVE', 'SUSPENDED'], {
     errorMap: () => {
       return { message: 'Please select a status' };

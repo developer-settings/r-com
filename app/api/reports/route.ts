@@ -11,6 +11,7 @@ export const GET = async (request: NextRequest) => {
       'http://worldtimeapi.org/api/timezone/America/Port-au-Prince'
     );
     const data = await response.json();
+
     currentDate = dayjs(data.datetime);
   } catch (error) {
     currentDate = dayjs();

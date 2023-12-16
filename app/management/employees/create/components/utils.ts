@@ -34,3 +34,34 @@ export const roles: { label: string; value: Role }[] = [
     value: 'EXECUTIVE',
   },
 ];
+
+export const days: { label: string; value: string }[] = [
+  {
+    label: 'Saturday',
+    value: 'SATURDAY',
+  },
+  {
+    label: 'Sunday',
+    value: 'SUNDAY',
+  },
+  {
+    label: 'Monday',
+    value: 'MONDAY',
+  },
+  {
+    label: 'Tuesday',
+    value: 'TUESDAY',
+  },
+  {
+    label: 'Wednesday',
+    value: 'WEDNESDAY',
+  },
+  {
+    label: 'Thursday',
+    value: 'THURSDAY',
+  },
+  {
+    label: 'Friday',
+    value: 'FRIDAY',
+  },
+];

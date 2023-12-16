@@ -36,7 +36,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
-import { roles, statues } from '../../employees/create/components/utils';
+import { days, roles, statues } from '../../employees/create/components/utils';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRouter } from 'next/navigation';
@@ -66,8 +66,9 @@ export function EmployeeForm() {
             router.push('/management/employees');
           });
         })}
-        className='space-y-8'>
-        <div>
+        className='space-y-8'
+      >
+        <div className='grid grid-cols-2 gap-5'>
           <FormField
             control={form.control}
             name='profile_id'
@@ -80,9 +81,10 @@ export function EmployeeForm() {
                         variant='outline'
                         role='combobox'
                         className={cn(
-                          'w-[300px] justify-between',
+                          'justify-between',
                           !field.value && 'text-muted-foreground'
-                        )}>
+                        )}
+                      >
                         {field.value
                           ? profiles?.find(
                               (profile) =>
@@ -93,7 +95,7 @@ export function EmployeeForm() {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className='w-[300px] p-0'>
+                  <PopoverContent className='p-0'>
                     <Command>
                       <CommandInput placeholder='Search Profiles...' />
                       {isLoading && (
@@ -114,7 +116,8 @@ export function EmployeeForm() {
                                 'profile_id',
                                 String(profile.profile_id)
                               );
-                            }}>
+                            }}
+                          >
                             <CheckIcon
                               className={cn(
                                 'mr-2 h-4 w-4',
@@ -135,8 +138,6 @@ export function EmployeeForm() {
               </FormItem>
             )}
           />
-        </div>
-        <div className='grid grid-cols-2 gap-5'>
           <FormField
             control={form.control}
             name='job_title'
@@ -144,6 +145,31 @@ export function EmployeeForm() {
               <FormItem>
                 <FormControl>
                   <Input placeholder='Job Title' {...field} />
+                </FormControl>
+                <FormMessage className='text-xs' />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className='grid grid-cols-2 gap-5'>
+          <FormField
+            name='day_off'
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Select {...field} onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder='Day Off' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {days.map((day) => (
+                        <SelectItem key={day.value} value={day.value}>
+                          {day.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage className='text-xs' />
               </FormItem>

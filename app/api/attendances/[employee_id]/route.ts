@@ -1,6 +1,7 @@
 import { employeeIdSchema } from '@/app/types/schema';
 import { sql } from '@/app/utils/query';
-import dayjs from 'dayjs';
+import moment from 'moment-timezone';
+
 import { NextRequest, NextResponse } from 'next/server';
 
 interface Props {
@@ -34,8 +35,12 @@ export const PATCH = async (
         'http://worldtimeapi.org/api/timezone/America/Port-au-Prince'
       );
       const data = await response.json();
+
       const currentDateTime = data.datetime;
-      const currentDate = dayjs(currentDateTime).format('YYYY-MM-DD');
+      const currentDate = moment
+        .tz(currentDateTime, 'America/Port-au-Prince')
+        .format('YYYY-MM-DD');
+
       const attendance =
         await sql`SELECT EXISTS(SELECT 1 FROM AttendanceTable WHERE employee_id = ${validation.data.employee_id} AND attendance_date = ${currentDate})`;
       if (attendance[0].exists) {
@@ -51,7 +56,10 @@ export const PATCH = async (
             { status: 400 }
           );
         } else {
-          const currentTime = dayjs(currentDateTime).format('HH:mm:ss');
+          const currentTime = moment
+            .tz(currentDateTime, 'America/Port-au-Prince')
+            .format('HH:mm:ss');
+
           const employeeData =
             await sql`SELECT end_shift FROM EmployeeTable WHERE employee_id = ${validation.data.employee_id}`;
           const employeeShift = employeeData[0].end_shift;
@@ -68,7 +76,8 @@ export const PATCH = async (
 			  check_out_time = ${currentTime},
 			  check_out_status = ${checkOutStatus},
         work_day_status = 'PRESENT'
-			WHERE employee_id = ${validation.data.employee_id} AND attendance_date = ${currentDate}`;
+			  WHERE employee_id = ${validation.data.employee_id} AND attendance_date = ${currentDate}
+      `;
 
           const newAttendance = await sql`
 			SELECT 
